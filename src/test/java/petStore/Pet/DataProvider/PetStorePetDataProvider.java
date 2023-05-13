@@ -49,7 +49,8 @@ public class PetStorePetDataProvider {
     public Object[][] deletePetStorePetWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, 2023, "json.schema.PetStore/receiveResponseCreatePet.json"}
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"},
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"}
         };
     }
 }

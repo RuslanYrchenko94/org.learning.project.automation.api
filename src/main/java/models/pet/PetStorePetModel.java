@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 public class PetStorePetModel {
 
     @JsonProperty("photoUrls")
-    private List<String> photoUrls;
+    private String photoUrls;
 
     @JsonProperty("name")
     private String name;
@@ -33,13 +33,11 @@ public class PetStorePetModel {
     @Override
     public String toString() {
         return
-                "PetStorePetModel{" +
-                        "photoUrls = '" + photoUrls + '\'' +
-                        ",name = '" + name + '\'' +
-                        ",id = '" + id + '\'' +
-                        ",category = '" + category + '\'' +
-                        ",tags = '" + tags + '\'' +
-                        ",status = '" + status + '\'' +
-                        "}";
+                "{\"id\":" + id + "," +
+                        "\"category\":" + category + "," +
+                        "\"name\":\"" + name + "\"," +
+                        "\"photoUrls\":[\"" + photoUrls + "\"]," +
+                        "\"tags\":" + tags + "," +
+                        "\"status\":\"" + status + "\"}";
     }
 }

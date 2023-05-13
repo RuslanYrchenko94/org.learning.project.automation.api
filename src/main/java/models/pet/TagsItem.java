@@ -19,9 +19,6 @@ public class TagsItem{
     @Override
     public String toString(){
         return
-                "TagsItem{" +
-                        "name = '" + tagName + '\'' +
-                        ",id = '" + tagId + '\'' +
-                        "}";
+        "{\"id\":"+ tagId +",\"name\":\""+ tagName +"\"}";
     }
 }

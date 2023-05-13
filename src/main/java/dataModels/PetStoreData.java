@@ -31,7 +31,7 @@ public class PetStoreData {
         return new PetStorePetModel()
 
                 .name("Piki")
-                .photoUrls(Collections.singletonList("http://py.jpg"))
+                .photoUrls("http://py.jpg")
                 .id(petId)
                 .category(new Category()
                         .categoryId(555)

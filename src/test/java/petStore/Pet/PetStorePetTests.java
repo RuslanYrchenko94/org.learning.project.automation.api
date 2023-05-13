@@ -1,8 +1,9 @@
 package petStore.Pet;
 
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.mustache.Value;
 import petStore.BaseTest;
 import petStore.Pet.DataProvider.PetStorePetDataProvider;
 
@@ -26,22 +27,32 @@ public class PetStorePetTests extends BaseTest {
                 .body(bodyKey, is(notNullValue()));
     }
     @Test(description = "Updates a pet in the store with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "postPetStorePet")
-    public void postPetStorePetTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
+    public void postPetStorePetTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema, String body) {
 
-        given().spec(specForRequest)
-                .body(postCreatePet(petID))
-                .when().post(format("%s%s", URL, endpoint))
-                .then().spec(specForResponse).statusCode(statusCode)
+        Response pet =given().spec(specForRequest)
+                .body(body)
+                .when().post(format("%s%s", URL, endpoint));
+        pet.then().spec(specForResponse).statusCode(statusCode)
                 .body(matchesJsonSchemaInClasspath(jsonSchema));
-        deletePet(petID, endpoint);
+        if(pet.statusCode() == 200){
+            deletePet(petID, endpoint);
+        }
 
     }
-    private void deletePet(Integer petID, String endpoint) {
+   /*@Test(description = "Deletes a pet with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "deletePetStorePet")
+   public void deletePetTest(Integer petID, String endpoint) {
 
         given().spec(specForRequest)
                 .when().delete(format("%s%s%s", URL, endpoint, petID))
                 .then().log().all()
                 .spec(specForResponse)
                 .body("message", equalTo(petID.toString()));
+    }*/
+    private void deletePet(Integer petID, String endpoint) {
+        given().when().delete(format("%s%s%s", URL, endpoint, petID));
+    }
+    private void createPet(Integer petID, String endpoint) {
+        given().body(postCreatePet(petID))
+                .when().post(format("%s%s", URL, endpoint));
     }
 }

@@ -33,4 +33,5 @@ public class PetStoreModelResponse {
 
     @JsonProperty("username")
     private String username;
+
 }

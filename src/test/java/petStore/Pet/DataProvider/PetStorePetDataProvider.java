@@ -3,20 +3,10 @@ package petStore.Pet.DataProvider;
 import org.testng.annotations.DataProvider;
 import static config.enums.PetStoreEndpoint.PET;
 import static config.enums.PetStoreEndpoint.PET_FIND_BY_STATUS;
-import static dataModels.PetStoreData.postCreatePet;
 import static globalConstants.Constants.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+
 
 public class PetStorePetDataProvider {
-    //Integer petID = 2023;
-   /* String invalidID = "{\"id\":0000,\"category\":{\"id\":64598,\"name\":\"doggie\"},\"name\":\"PIKI\"," +
-            "\"photoUrls\":[\"http://py.jpg\"]," +
-            "\"tags\":[{\"id\":2312,\"name\":\"papy\"}],\"status\":\"available\"}";*/
-   /* String PetStoreBodyWithInvalidBody = "{\"id\":2023,\"category\":{\"id\":64598,\"name\":\"doggie\"},\"name\":\"PIKI\"," +
-            "\"photoUrls\":[\"http://py.jpg\"]," +
-            "\"tags\":[[{\"id\":2312,\"name\":\"papy\"}],\"status\":\"available\"}";*/
-    String Body = postCreatePet(petID).toString();
 
     @DataProvider(name = "getPetStorePetsByStatus")
     public Object[][] getPetStorePetWithParam() {
@@ -36,21 +26,42 @@ public class PetStorePetDataProvider {
     public Object[][] postPetStorePetWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseCreatePet.json", Body},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseCreatePet.json", PetStorePetBodyValidBody},
                 //create pet with invalid ID
-                {PET.getEndpoint(), 400, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStoreBodyWithInvalidID},
+                {PET.getEndpoint(), 400, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStorePetBodyWithInvalidID},
                 //create pet with invalid body
-                {PET.getEndpoint(), 500, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStoreBodyWithInvalidBody}
+                {PET.getEndpoint(), 500, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStorePetBodyWithInvalidBody}
 
+        };
+    }
+    @DataProvider(name = "postPetStorePetById")
+    public Object[][] postPetStorePetByIdWithParam() {
+        return new Object[][]{
+                // valid case
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPetByIdResponse.json", "name=Spike&status=sold"},
+                // no record found
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json", "name=Spike&status=sold"}
         };
     }
 
     @DataProvider(name = "deletePetStorePet")
-    public Object[][] deletePetStorePetWithParam() {
+    public Object[][] deletePetStorePetByIdWithParam() {
         return new Object[][]{
                 // valid case
                 {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"},
+                // no record found
                 {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"}
+        };
+    }
+    @DataProvider(name = "getPetStorePet")
+    public Object[][] getPetStorePetByIdWithParam() {
+        return new Object[][]{
+                // valid case
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseGetPet.json"},
+                // no record found
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json"},
+                //invalid param
+                {PET.getEndpoint(), 405, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json"}
         };
     }
 }

@@ -3,7 +3,7 @@ package petStore.Pet;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import petStore.BaseTest;
-import petStore.Pet.DataProvider.PetStorePetDataProvider;
+import petStore.Pet.PetDataProvider.PetStorePetDataProvider;
 import io.restassured.http.ContentType;
 
 import static dataModels.PetStoreData.postCreatePet;

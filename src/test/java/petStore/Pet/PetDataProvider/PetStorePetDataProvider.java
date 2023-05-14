@@ -1,4 +1,4 @@
-package petStore.Pet.DataProvider;
+package petStore.Pet.PetDataProvider;
 
 import org.testng.annotations.DataProvider;
 import static config.enums.PetStoreEndpoint.PET;

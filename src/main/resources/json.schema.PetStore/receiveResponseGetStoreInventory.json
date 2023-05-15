@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "sold": {
+      "type": "integer"
+    },
+    "string": {
+      "type": "integer"
+    },
+    "pending": {
+      "type": "integer"
+    },
+    "available": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "sold",
+    "string",
+    "pending",
+    "available"
+  ]
+}

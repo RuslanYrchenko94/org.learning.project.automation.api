@@ -42,14 +42,11 @@ public class PetStoreData {
                 .status("available");
     }
 
-    public static PetStoreOrderModel postCreateOrder() {
-
-        //String orderId = RandomStringUtils.randomNumeric(5);
-
+    public static PetStoreOrderModel postCreateOrder(Integer orderID) {
 
         return new PetStoreOrderModel()
-                .id(615651)
-                .petId(56516)
+                .id(orderID)
+                .petId(777)
                 .quantity(5)
                 .shipDate(datetime.toString())
                 .status("placed")

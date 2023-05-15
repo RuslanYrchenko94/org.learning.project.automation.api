@@ -53,9 +53,9 @@ public class PetStorePetTests extends BaseTest {
     @Test(description = "Deletes a pet with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "deletePetStorePet")
     public void deletePetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
 
-        if(statusCode == 200){
+       if(statusCode == 200){
             createPet(petID, endpoint);
-        }
+       }
        Response deletePet =given().spec(specForRequestCTJson)
                 .when().delete(format("%s%s%s", URL, endpoint, petID));
        if(statusCode == 200){

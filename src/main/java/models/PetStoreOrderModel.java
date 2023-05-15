@@ -26,13 +26,11 @@ public class PetStoreOrderModel{
     @Override
     public String toString(){
         return
-                "PetStoreOrderModel{" +
-                        "petId = '" + petId + '\'' +
-                        ",quantity = '" + quantity + '\'' +
-                        ",id = '" + id + '\'' +
-                        ",shipDate = '" + shipDate + '\'' +
-                        ",complete = '" + complete + '\'' +
-                        ",status = '" + status + '\'' +
-                        "}";
+                "{\"id\":"+id+"," +
+                        "\"petId\":"+petId+"," +
+                        "\"quantity\":"+quantity+"," +
+                        "\"shipDate\":\""+shipDate+"\"," +
+                        "\"status\":\""+status+"\"," +
+                        "\"complete\":"+complete+"}";
     }
 }

@@ -1,15 +1,14 @@
 package petStore.Pet.PetDataProvider;
 
 import org.testng.annotations.DataProvider;
-import static config.enums.PetStoreEndpoint.PET;
-import static config.enums.PetStoreEndpoint.PET_FIND_BY_STATUS;
+import static config.enums.PetStoreEndpoint.*;
 import static globalConstants.Constants.*;
 
 
 public class PetStorePetDataProvider {
 
     @DataProvider(name = "getPetStorePetsByStatus")
-    public Object[][] getPetStorePetWithParam() {
+    public Object[][] getPetStoreStoreInventoryWithParam() {
         return new Object[][]{
                 // valid case Finds Pets by sold status
                 {PET_FIND_BY_STATUS.getEndpoint(), 200, STATUS, "sold", "category"},
@@ -26,11 +25,11 @@ public class PetStorePetDataProvider {
     public Object[][] postPetStorePetWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseCreatePet.json", PetStorePetBodyValidBody},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPet.json", PetStorePetBodyValidBody},
                 //create pet with invalid ID
-                {PET.getEndpoint(), 400, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStorePetBodyWithInvalidID},
+                {PET.getEndpoint(), 400, 0, "json.schema.PetStore/receiveResponsePostWithInvalidBody.json", PetStorePetBodyWithInvalidID},
                 //create pet with invalid body
-                {PET.getEndpoint(), 500, 0, "json.schema.PetStore/receiveResponsePostPetWithInvalidResponse.json", PetStorePetBodyWithInvalidBody}
+                {PET.getEndpoint(), 500, 0, "json.schema.PetStore/receiveResponsePostWithInvalidBody.json", PetStorePetBodyWithInvalidBody}
 
         };
     }
@@ -38,9 +37,9 @@ public class PetStorePetDataProvider {
     public Object[][] postPetStorePetByIdWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPetByIdResponse.json", "name=Spike&status=sold"},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPetById.json", "name=Spike&status=sold"},
                 // no record found
-                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json", "name=Spike&status=sold"}
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetNotFound.json", "name=Spike&status=sold"}
         };
     }
 
@@ -48,9 +47,9 @@ public class PetStorePetDataProvider {
     public Object[][] deletePetStorePetByIdWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"},
                 // no record found
-                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDeletePetResponse.json"}
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"}
         };
     }
     @DataProvider(name = "getPetStorePet")
@@ -59,9 +58,9 @@ public class PetStorePetDataProvider {
                 // valid case
                 {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseGetPet.json"},
                 // no record found
-                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json"},
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseGetNotFound.json"},
                 //invalid param
-                {PET.getEndpoint(), 405, petID, "json.schema.PetStore/receiveResponseGetPetWithInvalidID.json"}
+                {PET.getEndpoint(), 405, petID, "json.schema.PetStore/receiveResponseGetNotFound.json"}
         };
     }
 }

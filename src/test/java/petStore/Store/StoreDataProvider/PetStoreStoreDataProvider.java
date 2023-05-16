@@ -36,9 +36,9 @@ public class PetStoreStoreDataProvider {
     public Object[][] deletePetStorePetByIdWithParam() {
         return new Object[][]{
                 // valid case
-                {STORE_ORDER.getEndpoint(), CODE_OK, orderID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"},
+                {STORE_ORDER.getEndpoint(), CODE_OK, orderID, "json.schema.PetStore/receiveResponseDelete.json"},
                 // no record found
-                {STORE_ORDER.getEndpoint(), 404, orderID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"},
+                {STORE_ORDER.getEndpoint(), 404, orderID, "json.schema.PetStore/receiveResponseDelete.json"},
                 //invalid param
                 {STORE_ORDER.getEndpoint(), 405, orderID, "json.schema/"}
         };

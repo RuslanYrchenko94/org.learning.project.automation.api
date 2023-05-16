@@ -37,7 +37,7 @@ public class PetStoreStoreTests extends BaseTest {
     public void getPetStoreOrderByIDTest(String endpoint, Integer statusCode, Integer orderID, String jsonSchema) {
 
         if(statusCode == CODE_OK){
-            createOrder(endpoint, PetStoreStoreOrderValidBody);
+            createOrder(endpoint);
             Response getOrder =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, orderID));
             getOrder.then().spec(specForResponse).statusCode(statusCode)
@@ -62,7 +62,7 @@ public class PetStoreStoreTests extends BaseTest {
     public void deleteOrderByIDTest(String endpoint, Integer statusCode, Integer orderId, String jsonSchema) {
 
         if(statusCode == CODE_OK){
-            createOrder(endpoint, PetStoreStoreOrderValidBody);
+            createOrder(endpoint);
         }
         Response deleteOrder =given().spec(specForRequestCTJson)
                 .when().delete(format("%s%s%s", URL, endpoint, orderId));
@@ -83,9 +83,8 @@ public class PetStoreStoreTests extends BaseTest {
     private void deleteOrderById(Integer orderID, String endpoint) {
         given().when().delete(format("%s%s%s", URL, endpoint, orderID));
     }
-    private void createOrder(String endpoint, String body) {
-        given().spec(specForRequestCTJson).body(body)
-                .when().post(format("%s%s", URL, endpoint))
-                .then().log().all();
+    private void createOrder(String endpoint) {
+        given().spec(specForRequestCTJson).body(PetStoreStoreOrderValidBody)
+                .when().post(format("%s%s", URL, endpoint));
     }
 }

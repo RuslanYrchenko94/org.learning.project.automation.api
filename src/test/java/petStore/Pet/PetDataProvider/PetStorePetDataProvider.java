@@ -25,7 +25,7 @@ public class PetStorePetDataProvider {
     public Object[][] postPetStorePetWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPet.json", PetStorePetBodyValidBody},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponsePostPet.json", PetStorePetValidBody},
                 //create pet with invalid ID
                 {PET.getEndpoint(), 400, 0, "json.schema.PetStore/receiveResponsePostWithInvalidBody.json", PetStorePetBodyWithInvalidID},
                 //create pet with invalid body
@@ -47,9 +47,9 @@ public class PetStorePetDataProvider {
     public Object[][] deletePetStorePetByIdWithParam() {
         return new Object[][]{
                 // valid case
-                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"},
+                {PET.getEndpoint(), 200, petID, "json.schema.PetStore/receiveResponseDelete.json"},
                 // no record found
-                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDeletePetOrOrder.json"}
+                {PET.getEndpoint(), 404, petID, "json.schema.PetStore/receiveResponseDelete.json"}
         };
     }
     @DataProvider(name = "getPetStorePet")

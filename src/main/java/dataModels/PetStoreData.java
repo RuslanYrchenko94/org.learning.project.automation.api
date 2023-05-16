@@ -21,8 +21,8 @@ public class PetStoreData {
                 .firstName("Ruslan")
                 .lastName("Yurchenko")
                 .email("test@gmail.com")
-                .password("testUser")
-                .phone("22-00-23")
+                .password("testuser")
+                .phone("+380960913814")
                 .userStatus(0);
     }
 

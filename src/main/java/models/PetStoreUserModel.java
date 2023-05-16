@@ -26,18 +26,17 @@ public class PetStoreUserModel {
     private String phone;
     @JsonProperty("userStatus")
     private Integer userStatus;
-
     @Override
     public String toString() {
-        return "PetStoreModel{" +
-                "id:" + id +
-                ", username:'" + username + '\'' +
-                ", firstName:'" + firstName + '\'' +
-                ", lastName:'" + lastName + '\'' +
-                ", email:'" + email + '\'' +
-                ", password:'" + password + '\'' +
-                ", phone:'" + phone + '\'' +
-                ", userStatus:" + userStatus +
-                '}';
+        return
+                "{\"id\":"+id+"," +
+                        "\"username\":\""+username+"\"," +
+                        "\"firstName\":\""+firstName+"\"," +
+                        "\"lastName\":\""+lastName+"\"," +
+                        "\"email\":\""+email+"\"," +
+                        "\"password\":\""+password+"\"," +
+                        "\"phone\":\""+phone+"\"," +
+                        "\"userStatus\":"+userStatus+"}";
+
     }
 }

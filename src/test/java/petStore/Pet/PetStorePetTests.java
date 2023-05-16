@@ -6,7 +6,6 @@ import petStore.BaseTest;
 import petStore.Pet.PetDataProvider.PetStorePetDataProvider;
 import io.restassured.http.ContentType;
 
-import static dataModels.PetStoreData.postCreatePet;
 import static globalConstants.Constants.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -40,7 +39,7 @@ public class PetStorePetTests extends BaseTest {
     @Test(description = "Updates a pet in the store by id with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "postPetStorePetById")
     public void postPetStorePetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema, String body) {
         if(statusCode == 200){
-            createPet(petID, endpoint);
+            createPet(endpoint);
         }
         Response updatePetById =given().spec(specForRequestCTFormData)
                 .body(body)
@@ -54,7 +53,7 @@ public class PetStorePetTests extends BaseTest {
     public void deletePetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
 
        if(statusCode == 200){
-            createPet(petID, endpoint);
+            createPet(endpoint);
        }
        Response deletePet =given().spec(specForRequestCTJson)
                 .when().delete(format("%s%s%s", URL, endpoint, petID));
@@ -69,7 +68,7 @@ public class PetStorePetTests extends BaseTest {
     public void getPetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
 
         if(statusCode == 200){
-            createPet(petID, endpoint);
+            createPet(endpoint);
             Response getPet =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, petID));
             getPet.then().log().all().statusCode(statusCode)
@@ -93,9 +92,8 @@ public class PetStorePetTests extends BaseTest {
     private void deletePetById(Integer petID, String endpoint) {
         given().when().delete(format("%s%s%s", URL, endpoint, petID));
     }
-    private void createPet(Integer petID, String endpoint) {
-        given().spec(specForRequestCTJson).body(postCreatePet(petID).toString())
-                .when().post(format("%s%s", URL, endpoint))
-                .then().log().all();
+    private void createPet(String endpoint) {
+        given().spec(specForRequestCTJson).body(PetStorePetValidBody)
+                .when().post(format("%s%s", URL, endpoint));
     }
 }

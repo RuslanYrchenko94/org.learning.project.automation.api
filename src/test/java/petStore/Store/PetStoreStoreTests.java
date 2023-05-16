@@ -36,17 +36,17 @@ public class PetStoreStoreTests extends BaseTest {
     @Test(description = "Find order by ID with form data",dataProviderClass = PetStoreStoreDataProvider.class, dataProvider = "getPetStoreOrderById")
     public void getPetStoreOrderByIDTest(String endpoint, Integer statusCode, Integer orderID, String jsonSchema) {
 
-        if(statusCode == CODE_OK){
+        if(statusCode.equals(CODE_OK)){
             createOrder(endpoint);
-            Response getOrder =given().spec(specForRequestCTJson)
+            Response getOrder = given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, orderID));
             getOrder.then().spec(specForResponse).statusCode(statusCode)
                     .body(matchesJsonSchemaInClasspath(jsonSchema))
                     .body("id", equalTo(orderID));
             deleteOrderById(orderID, endpoint);
         }
-        else if (statusCode == 404) {
-            Response getPet =given().spec(specForRequestCTJson)
+        else if (statusCode.equals(404)) {
+            Response getPet = given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, orderID));
             getPet.then().log().all().statusCode(statusCode)
                     .body(matchesJsonSchemaInClasspath(jsonSchema))
@@ -66,11 +66,11 @@ public class PetStoreStoreTests extends BaseTest {
         }
         Response deleteOrder =given().spec(specForRequestCTJson)
                 .when().delete(format("%s%s%s", URL, endpoint, orderId));
-        if(statusCode == CODE_OK){
+        if(statusCode.equals(CODE_OK)){
             deleteOrder.then().log().all().statusCode(statusCode)
                     .body(matchesJsonSchemaInClasspath(jsonSchema))
                     .body("message", equalTo(orderId.toString()));}
-        else if (statusCode == 404){
+        else if (statusCode.equals(404)){
             deleteOrder.then().log().all().statusCode(statusCode)
                 .body(matchesJsonSchemaInClasspath(jsonSchema))
                 .body("message", equalToIgnoringCase("Order not found"));

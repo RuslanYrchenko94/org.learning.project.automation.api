@@ -34,7 +34,7 @@ public class PetStoreUserTests extends BaseTest {
     @Test(description = "Create user", dataProviderClass = PetStoreUserDataProvider.class, dataProvider = "getPetStoreUserByUserName")
     public void getPetStoreUserByUserName(String endpoint, Integer statusCode, String Username, String jsonSchema){
 
-        if(statusCode == CODE_OK){
+        if(statusCode.equals(CODE_OK)){
             createUser(endpoint);
             Response getUser =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, Username));
@@ -44,7 +44,7 @@ public class PetStoreUserTests extends BaseTest {
                     .body("username", equalTo(Username));
             deleteUserByUsername(Username, endpoint);
         }
-        else if (statusCode == 404) {
+        else if (statusCode.equals(404)) {
             Response getUser =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, Username));
             getUser.then().log().all().statusCode(statusCode)
@@ -60,7 +60,7 @@ public class PetStoreUserTests extends BaseTest {
     @Test(description = "Create user", dataProviderClass = PetStoreUserDataProvider.class, dataProvider = "deletePetStoreUserByUserName")
     public void deletePetStoreUserByUserName(String endpoint, Integer statusCode, String Username, String jsonSchema){
 
-        if(statusCode == CODE_OK){
+        if(statusCode.equals(CODE_OK)){
             createUser(endpoint);
             Response deleteUser =given().spec(specForRequestCTJson)
                     .when().delete(format("%s%s%s", URL, endpoint, Username));
@@ -68,7 +68,7 @@ public class PetStoreUserTests extends BaseTest {
                     .body(matchesJsonSchemaInClasspath(jsonSchema))
                     .body("message", equalTo(Username));
         }
-        else if (statusCode == 404) {
+        else if (statusCode.equals(404)) {
             Response deleteUser =given().spec(specForRequestCTJson)
                     .when().delete(format("%s%s%s", URL, endpoint, Username));
             deleteUser.then().log().all().statusCode(statusCode);

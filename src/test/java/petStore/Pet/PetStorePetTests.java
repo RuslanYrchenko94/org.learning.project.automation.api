@@ -32,13 +32,13 @@ public class PetStorePetTests extends BaseTest {
                 .when().post(format("%s%s", URL, endpoint));
         createPet.then().spec(specForResponse).statusCode(statusCode)
                 .body(matchesJsonSchemaInClasspath(jsonSchema));
-        if(createPet.statusCode() == 200){
+        if(createPet.statusCode() == CODE_OK){
             deletePetById(petID, endpoint);
         }
     }
     @Test(description = "Updates a pet in the store by id with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "postPetStorePetById")
     public void postPetStorePetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema, String body) {
-        if(statusCode == 200){
+        if(statusCode.equals(CODE_OK)){
             createPet(endpoint);
         }
         Response updatePetById =given().spec(specForRequestCTFormData)
@@ -52,12 +52,12 @@ public class PetStorePetTests extends BaseTest {
     @Test(description = "Deletes a pet with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "deletePetStorePet")
     public void deletePetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
 
-       if(statusCode == 200){
+       if(statusCode.equals(CODE_OK)){
             createPet(endpoint);
        }
        Response deletePet =given().spec(specForRequestCTJson)
                 .when().delete(format("%s%s%s", URL, endpoint, petID));
-       if(statusCode == 200){
+       if(statusCode.equals(CODE_OK)){
        deletePet.then().log().all().statusCode(statusCode)
                 .body(matchesJsonSchemaInClasspath(jsonSchema))
                 .body("message", equalTo(petID.toString()));}
@@ -67,7 +67,7 @@ public class PetStorePetTests extends BaseTest {
     @Test(description = "Find pet by ID with form data",dataProviderClass = PetStorePetDataProvider.class, dataProvider = "getPetStorePet")
     public void getPetByIDTest(String endpoint, Integer statusCode, Integer petID, String jsonSchema) {
 
-        if(statusCode == 200){
+        if(statusCode.equals(CODE_OK)){
             createPet(endpoint);
             Response getPet =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, petID));
@@ -76,7 +76,7 @@ public class PetStorePetTests extends BaseTest {
                     .body("id", equalTo(petID));
             deletePetById(petID, endpoint);
         }
-        else if (statusCode == 404) {
+        else if (statusCode.equals(404)) {
             Response getPet =given().spec(specForRequestCTJson)
                     .when().get(format("%s%s%s", URL, endpoint, petID));
             getPet.then().log().all().statusCode(statusCode)

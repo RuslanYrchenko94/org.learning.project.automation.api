@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import petStore.BaseTest;
 import petStore.User.UserDataProvider.PetStoreUserDataProvider;
 
+import java.sql.*;
+
 import static globalConstants.Constants.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -20,10 +22,14 @@ public class PetStoreUserTests extends BaseTest {
                 .body(body)
                 .when().post(format("%s%s", URL, endpoint));
         if (createUser.statusCode() == 200) {
-        createUser.then().spec(specForResponse).statusCode(CODE_OK)
+            addUserToDatabase(userID, Username);
+
+            createUser.then().spec(specForResponse).statusCode(CODE_OK)
                 .body(matchesJsonSchemaInClasspath(jsonSchema))
-                .body("message", equalTo(userID.toString()));
+                .body("message", equalTo(selectUserFromDatabaseById(Username)));
+
             deleteUserByUsername(Username, endpoint);
+            deleteUserFromDatabase(userID);
         }
         else {
             createUser.then().log().all().statusCode(statusCode)
@@ -31,7 +37,7 @@ public class PetStoreUserTests extends BaseTest {
                     .body("message", equalTo("bad input"));
         }
     }
-    @Test(description = "Create user", dataProviderClass = PetStoreUserDataProvider.class, dataProvider = "getPetStoreUserByUserName")
+    @Test(description = "Get user by username", dataProviderClass = PetStoreUserDataProvider.class, dataProvider = "getPetStoreUserByUserName")
     public void getPetStoreUserByUserName(String endpoint, Integer statusCode, String Username, String jsonSchema){
 
         if(statusCode.equals(CODE_OK)){
@@ -85,5 +91,43 @@ public class PetStoreUserTests extends BaseTest {
     private void createUser(String endpoint) {
         given().spec(specForRequestCTJson).body(PetStoreUserValidBody)
                 .when().post(format("%s%s", URL, endpoint));
+    }
+    private void addUserToDatabase(Integer id, String username){
+
+        try (Connection connection = DriverManager.getConnection(database_url, database_username, database_password)) {
+            String sql = "INSERT INTO test.users (id, username) VALUES ("+id+", '"+username+"');commit;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private String selectUserFromDatabaseById(String username){
+        int id = 0;
+
+        try (Connection connection = DriverManager.getConnection(database_url, database_username, database_password)) {
+            String sql = "select id from test.users where username = '"+username+"'";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                // Отримайте дані з результату запиту
+                id = resultSet.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String strID = String.valueOf(id);
+        return strID;
+    }
+    private void deleteUserFromDatabase(Integer id){
+
+        try (Connection connection = DriverManager.getConnection(database_url, database_username, database_password)) {
+            String sql = "delete from test.users where id = "+id+";commit;;commit;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

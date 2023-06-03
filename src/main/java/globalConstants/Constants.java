@@ -6,6 +6,9 @@ import static dataModels.PetStoreData.*;
 
 
 public class Constants {
+    public static final String database_url = "jdbc:postgresql://localhost:5432/postgres";
+    public static final String database_username = "postgres";
+    public static final String database_password = "qwerty1!";
     //status codes
     public static final Integer CODE_OK = 200;
     //params

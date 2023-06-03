@@ -5,6 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 @Getter
 @Setter
 @Accessors(fluent = true)
@@ -37,6 +42,8 @@ public class PetStoreUserModel {
                         "\"password\":\""+password+"\"," +
                         "\"phone\":\""+phone+"\"," +
                         "\"userStatus\":"+userStatus+"}";
+
+
 
     }
 }
